@@ -1,24 +1,36 @@
-const API_KEY = '51392079-b36bb30a852bc284302a63f16'; // Замініть на ваш фактичний API ключ
-const BASE_URL = 'https://pixabay.com/api/';
+import SimpleLightbox from 'simplelightbox';
+import 'simplelightbox/dist/simple-lightbox.min.css';
 
-/**
- * Виконує HTTP-запит до Pixabay API за пошуковим словом
- * @param {string} query - Пошуковий запит
- * @returns {Promise<Object>} - Об'єкт data з відповіді API
- */
-export async function getImagesByQuery(query) {
-  const url = `${BASE_URL}?key=${API_KEY}&q=${encodeURIComponent(query)}&image_type=photo&orientation=horizontal&safesearch=true`;
+const galleryContainer = document.querySelector('.gallery');
+const loader = document.querySelector('.loader');
 
-  try {
-    const response = await fetch(url);
-    if (!response.ok) {
-      throw new Error(`HTTP error! status: ${response.status}`);
-    }
+const lightbox = new SimpleLightbox('.gallery a', {
+  captionsData: 'alt',
+  captionDelay: 250,
+});
 
-    const data = await response.json();
-    return data;
-  } catch (error) {
-    console.error('Помилка при отриманні зображень з Pixabay:', error);
-    throw error;
-  }
+export function createGallery(images) {
+  const markup = images
+    .map(
+      ({ webformatURL, largeImageURL, tags }) => `
+      <a class="gallery__item" href="${largeImageURL}">
+        <img class="gallery__image" src="${webformatURL}" alt="${tags}" />
+      </a>`
+    )
+    .join('');
+
+  galleryContainer.insertAdjacentHTML('beforeend', markup);
+  lightbox.refresh();
+}
+
+export function clearGallery() {
+  galleryContainer.innerHTML = '';
+}
+
+export function showLoader() {
+  loader.classList.add('visible'); // CSS: .loader.visible { display: block; }
+}
+
+export function hideLoader() {
+  loader.classList.remove('visible');
 }
