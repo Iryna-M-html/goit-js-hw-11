@@ -1,4 +1,5 @@
 import iziToast from "izitoast";
+import "izitoast/dist/css/iziToast.min.css";
 
 import { getImagesByQuery } from './js/pixabay-api';
 import {
@@ -37,8 +38,9 @@ form.addEventListener('submit', async e => {
         message: '❌Sorry, there are no images matching your search query. Please try again!',
         position: 'topRight',
         backgroundColor: '#ff4d4d', 
-        titleColor: '#ff4d4d',         
-        messageColor: '#fff'        
+        titleColor: '#ff4d4d', 
+        messageColor: '#fff',
+        iconColor: '#fff'        
       });
       return;
     }
