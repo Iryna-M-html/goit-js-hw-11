@@ -20,22 +20,25 @@ form.addEventListener('submit', async e => {
       title: 'Warning',
       message: 'Please enter a search term!',
       position: 'topRight',
+      
     });
     return;
   }
 
   clearGallery();
   showLoader();
-
+ 
   try {
     const data = await getImagesByQuery(query);
 
     if (data.hits.length === 0) {
       iziToast.info({
         title: 'No Results',
-        message:
-          'Sorry, there are no images matching your search query. Please try again!',
+        message: '❌Sorry, there are no images matching your search query. Please try again!',
         position: 'topRight',
+        backgroundColor: '#ff4d4d', 
+        titleColor: '#ff4d4d',         
+        messageColor: '#fff'        
       });
       return;
     }
@@ -52,3 +55,5 @@ form.addEventListener('submit', async e => {
     hideLoader();
   }
 });
+
+
